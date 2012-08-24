@@ -4,3 +4,16 @@
 html {
   background-image: none;
 }
+
+body > header h1 a {
+	background-image:url('/images/header.png');
+    background-repeat:no-repeat;
+	min-width: 505px;
+	min-height: 76px;
+	display: block;
+	color: transparent;
+}
+
+body > header h1 a:hover {
+  color: transparent;
+}

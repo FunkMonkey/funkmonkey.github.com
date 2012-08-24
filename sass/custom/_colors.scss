@@ -6,7 +6,7 @@ $page-bg :#fff;
 $main-bg: $page-bg;
 $noise-bg: none;
 $header-bg: $page-bg;
-//$subtitle-color: lighten($header-bg, 58);
+$subtitle-color: #0bb2f0;
 $nav-bg: $page-bg;
 $nav-bg-front: none;
 $nav-bg-back: none;
@@ -17,6 +17,7 @@ $footer-bg: $page-bg !default;
 $footer-bg-front: none;
 $footer-bg-back: none;
 
+$nav-border-bottom: darken($nav-bg, 11);
 
 /* To use the light Solarized highlighting theme uncomment the following line */
 //$solarized: light;

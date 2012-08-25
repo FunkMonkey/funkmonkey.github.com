@@ -5,6 +5,10 @@ html {
   background-image: none;
 }
 
+@media only screen and (min-width: 992px) {
+  body { font-size: 1em; }
+}
+
 body > header h1 a {
 	background-image:url('/images/header.png');
     background-repeat:no-repeat;

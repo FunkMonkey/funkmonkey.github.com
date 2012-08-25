@@ -21,3 +21,28 @@ body > header h1 a {
 body > header h1 a:hover {
   color: transparent;
 }
+
+td {
+  padding: 0.5em;
+  vertical-align: top;
+}
+
+td.right-align {
+  text-align: right;
+}
+
+.cv-grey {
+  color: #888;
+}
+
+.cv-project {
+  padding-left: 2em;
+  color: #888;
+  font-style: italic;
+}
+
+ul.cv-achievements-list {
+  margin-left: 5em;
+  font-size: 0.8em;
+  list-style-type: circle;
+}

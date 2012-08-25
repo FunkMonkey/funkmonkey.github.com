@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | André Selmanagić]]></title>
+  <link href="http://FunkMonkey.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://FunkMonkey.github.com/"/>
+  <updated>2012-08-25T18:01:08+02:00</updated>
+  <id>http://FunkMonkey.github.com/</id>
+  <author>
+    <name><![CDATA[André]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Switching to Octopress]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2012/08/24/switching-to-octopress/"/>
+    <updated>2012-08-24T22:49:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2012/08/24/switching-to-octopress</id>
+    <content type="html"><![CDATA[<p>This is more a test post than anything else.</p>
+
+<p>Switched from Joomla to <a href="http://octopress.org/">Octopress</a>. I will transfer the old pages one by one.</p>
+
+<p>Here are some things that I have learned.</p>
+
+<h4>Use 32-bit Python</h4>
+
+<p>Rubypython seems to depend on 32-bit Python. I had 64-bit Python installed, which gave me weird errors like</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>&#39;block in ffi_lib&#39;: Could not open library (LoadError)
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>followed by "library not found" or some gibberish unicode characters.</p>
+]]></content>
+  </entry>
+  
+</feed>

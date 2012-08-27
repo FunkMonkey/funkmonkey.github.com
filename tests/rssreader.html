@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RSSReader</title>
+	<script src="https://apis.google.com/js/client.js?onload=OnLoadCallback"></script>
+	<script>
+		var clientId = '271257289287.apps.googleusercontent.com';
+		var apiKey = 'YOUR API KEY';
+		var scopes = 'https://www.googleapis.com/auth/userinfo.profile ' + 
+					 'https://www.googleapis.com/auth/userinfo.email ' + 
+					 'https://www.google.com/reader/api ' + 
+					 'http://www.google.com/reader/atom ' +
+					 'http://www.google.com/reader/api ' +
+					 'http://www.google.com/reader/atom';
+		
+		function handleClientLoad() {
+		  gapi.client.setApiKey(apiKey);
+		  window.setTimeout(checkAuth,10);
+		}
+
+		function checkAuth() {
+		  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
+		  console.log("check auth");
+		}
+
+		function handleAuthResult(authResult) {
+		 console.log("handle result");
+		  var authorizeButton = document.getElementById('authorize-button');
+		  if (authResult && !authResult.error) {
+			authorizeButton.style.visibility = 'hidden';
+			makeApiCall();
+		  } else {
+			authorizeButton.style.visibility = '';
+			authorizeButton.onclick = handleAuthClick;
+		  }
+		}
+
+		function handleAuthClick(event) {
+		  gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
+		  return false;
+		}
+		
+		window.onload = function(){
+			handleClientLoad();
+		}
+	
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

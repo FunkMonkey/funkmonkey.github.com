@@ -27,8 +27,25 @@ td {
   vertical-align: top;
 }
 
-td.right-align {
+#cv-employment-table .right-align,
+#cv-education-table .right-align {
   text-align: right;
+  min-width: 6em;
+}
+
+.cv-study-subtable {
+  margin-left: 1.5em;
+  margin-top: 0.5em;
+}
+
+.cv-study-subtable .first-column {
+  min-width: 8em;
+}
+
+.cv-study-subtable td,
+.cv-study-subtable td {
+  padding-top: 0em;
+  padding-bottom: 0em;
 }
 
 .cv-grey {
@@ -37,6 +54,7 @@ td.right-align {
 
 .cv-project {
   padding-left: 2em;
+  padding-top: 0.5em;
   color: #888;
   font-style: italic;
 }

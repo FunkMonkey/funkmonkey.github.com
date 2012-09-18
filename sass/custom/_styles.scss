@@ -6,7 +6,7 @@ html {
 }
 
 @media only screen and (min-width: 992px) {
-  body { font-size: 1em; }
+  body { font-size: 0.95em; }
 }
 
 body > header h1 a {
@@ -22,7 +22,17 @@ body > header h1 a:hover {
   color: transparent;
 }
 
-td {
+blockquote {
+  font-size: 1em;
+}
+
+ul {
+  padding-left: 2em;
+}
+
+#cv-employment-table td,
+#cv-education-table td,
+#cv-skills-table td{
   padding: 0.5em;
   vertical-align: top;
 }

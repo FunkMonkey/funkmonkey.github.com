@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mozilla | André Selmanagić]]></title>
+  <link href="http://FunkMonkey.github.com/blog/categories/mozilla/atom.xml" rel="self"/>
+  <link href="http://FunkMonkey.github.com/"/>
+  <updated>2012-09-18T11:32:45+02:00</updated>
+  <id>http://FunkMonkey.github.com/</id>
+  <author>
+    <name><![CDATA[André]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Coolest Javascript Features - Part 1: let, logical operators, destructuring, labels]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2010/09/02/coolest-javascript-features/"/>
+    <updated>2010-09-02T13:48:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2010/09/02/coolest-javascript-features</id>
+    <content type="html"><![CDATA[<p>This is going to be an unsorted list about the nicest Javascript features. Look closely at the title: Javascript! Thus this list may contain features only present in the Mozilla-implementation and not standardized in ECMAScript! I am going to update this list every now and then.</p>
+
+<h2>Block scoping with <code>let</code></h2>
+
+<p><em>Support: <a href="http://wiki.ecmascript.org/doku.php?id=proposals:block_expressions&amp;s=let">ECMAScript Harmony</a>, <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Statements/let">Javascript 1.7</a>, Mozilla-only (as of September 2010)</em></p>
+
+<p>Finally <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Statements/let">lexical scoping / block scoping</a> in Javascript. Declare variables with <code>let</code> instead of <code>var</code>. May come in handy when you are creating closures in a loop.</p>
+
+<h2>Logical operators <code>&amp;&amp;</code> and <code>||</code></h2>
+
+<p><em>Support: should work in all modern browsers</em></p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Logical_Operators">Logical operators</a> are nothing spectecular in programming languages. But Javascript handles them a little different. <code>&amp;&amp;</code> and <code>||</code> don't necessarily return boolean values, but can also return other types (objects, etc). Here are some examples from <a href="http://javascriptweblog.wordpress.com/2010/07/26/no-more-ifs-alternatives-to-statement-branching-in-javascript/">Angus Croll's JavaScript blog</a>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">//invoke callback if there is one</span>
+</span><span class='line'><span class="nx">callback</span> <span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">amp</span><span class="p">;</span> <span class="nx">callback</span><span class="p">();</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">//delay by argument or 20</span>
+</span><span class='line'><span class="nx">delayBy</span><span class="p">(</span><span class="nx">delay</span> <span class="o">||</span> <span class="mi">20</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>But you should be careful, when using this with values that evaluate to false. See the following example:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">//delay by argument or 20</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">delay</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="nx">delayBy</span><span class="p">(</span><span class="nx">delay</span> <span class="o">||</span> <span class="mi">20</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><code>0</code> will evaluate to <code>false</code> and thus <code>delayBy</code> will be called with <code>20</code>.</p>
+
+<p><code>||</code> is often used for setting default-values for functions parameters (well, harmony may contain that <a href="http://wiki.ecmascript.org/doku.php?id=harmony:parameter_default_values">natively</a>), but as shown that may not always lead to the expected behaviour, thus I wouldn't recommend setting default values that way.</p>
+
+<h2>Destructuring</h2>
+
+<p><em>Support: <a href="http://wiki.ecmascript.org/doku.php?id=harmony:destructuring">ECMAScript Harmony</a>, <a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_%28Merge_into_own_page.2Fsection%29">Javascript 1.7</a>, Mozilla-only (as of September 2010)</em></p>
+
+<p>Don't confuse this with destructors known from languages like Java or C++. <a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.7#Destructuring_assignment_%28Merge_into_own_page.2Fsection%29">Destructuring</a> assignment makes it possible to extract data from arrays or objects using a syntax that mirrors the construction of array and object literals</p>
+
+<p>This allows things like swapping variables without a temporary variable, multiple return values and <a href="https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.7#Looping_across_objects">more</a>. Here is an example for multiple return values from MDN:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">;</span>
+</span><span class='line'><span class="p">[</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">]</span> <span class="o">=</span> <span class="nx">f</span><span class="p">();</span>
+</span><span class='line'><span class="nb">document</span><span class="p">.</span><span class="nx">write</span> <span class="p">(</span><span class="s2">&quot;A is &quot;</span> <span class="o">+</span> <span class="nx">a</span> <span class="o">+</span> <span class="s2">&quot; B is &quot;</span> <span class="o">+</span> <span class="nx">b</span> <span class="o">+</span> <span class="s2">&quot;\n&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>The function simply returns an array, but the destructuring syntax allows to split this into multiple variables.</p>
+
+<h2>Labeling statements</h2>
+
+<p><em>Support: should work in all modern browsers</em></p>
+
+<p>By <a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Statements#label_Statement">labeling</a> statements you can give them an identifier that you can refer to from somewhere else. That may come in handy when using loops with <code>continue</code> or <code>break</code>.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">loopX</span><span class="o">:</span>
+</span><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">x</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="mi">5</span><span class="p">;</span> <span class="o">++</span><span class="nx">x</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">y</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="mi">5</span><span class="p">;</span> <span class="o">++</span><span class="nx">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ... do something</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(...)</span>
+</span><span class='line'>        <span class="k">break</span> <span class="nx">loopX</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

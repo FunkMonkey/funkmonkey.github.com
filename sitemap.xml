@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://FunkMonkey.github.com/blog/2010/09/02/coolest-javascript-features/</loc>
+        <lastmod>2012-09-18T11:32:44+02:00</lastmod>
+    </url>
+    <url>
         <loc>
             http://FunkMonkey.github.com/blog/2012/01/01/c-plus-plus-11-auto-and-references/
         </loc>
@@ -12,7 +16,7 @@
     </url>
     <url>
         <loc>http://FunkMonkey.github.com/blog/archives/</loc>
-        <lastmod>2012-08-25T18:01:08+02:00</lastmod>
+        <lastmod>2012-09-18T11:32:44+02:00</lastmod>
     </url>
     <url>
         <loc>http://FunkMonkey.github.com/cv/</loc>
@@ -20,6 +24,26 @@
     </url>
     <url>
         <loc>http://FunkMonkey.github.com/</loc>
-        <lastmod>2012-08-25T18:01:08+02:00</lastmod>
+        <lastmod>2012-09-18T11:32:44+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://FunkMonkey.github.com/projects/curverider/</loc>
+        <lastmod>2012-09-16T16:46:28+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://FunkMonkey.github.com/projects/</loc>
+        <lastmod>2012-09-16T17:14:06+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://FunkMonkey.github.com/projects/lonewolf_kjapi/</loc>
+        <lastmod>2012-09-16T17:17:08+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://FunkMonkey.github.com/projects/loomo/</loc>
+        <lastmod>2012-09-16T17:03:28+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://FunkMonkey.github.com/projects/paradise_glossed/</loc>
+        <lastmod>2012-09-16T16:39:11+02:00</lastmod>
     </url>
 </urlset>

@@ -7,6 +7,7 @@ html {
 
 @media only screen and (min-width: 992px) {
   body { font-size: 0.95em; }
+  h1 { font-size: 2.2em; line-height: 1.2em; }
 }
 
 body > header h1 a {
@@ -54,8 +55,8 @@ ul {
 
 .cv-study-subtable td,
 .cv-study-subtable td {
-  padding-top: 0em;
-  padding-bottom: 0em;
+  padding-top: 0em !important;
+  padding-bottom: 0em !important;
 }
 
 .cv-grey {

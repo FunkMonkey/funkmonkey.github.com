@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: roundup | André Selmanagić]]></title>
+  <link href="http://FunkMonkey.github.com/blog/categories/roundup/atom.xml" rel="self"/>
+  <link href="http://FunkMonkey.github.com/"/>
+  <updated>2012-10-14T17:53:45+02:00</updated>
+  <id>http://FunkMonkey.github.com/</id>
+  <author>
+    <name><![CDATA[André]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Link Roundup (October 2012)]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2012/10/14/link-roundup/"/>
+    <updated>2012-10-14T14:01:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2012/10/14/link-roundup</id>
+    <content type="html"><![CDATA[<p>Some interesting links ...</p>
+
+<h3>Functional Programming</h3>
+
+<ul>
+<li><a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a><br/>
+Great introduction to functional programming</li>
+</ul>
+
+
+<h3>JavaScript</h3>
+
+<ul>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2012/10/10/rivertrail/">Rivertrail</a><br/>
+Mozilla started implementing Intel's Rivertrail specification</li>
+</ul>
+
+
+<h3>Sublime Text 2</h3>
+
+<ul>
+<li><a href="https://tutsplus.com/course/improve-workflow-in-sublime-text-2/">Perfect Workflow in Sublime Text 2</a><br/>
+A great video tutorial series about Sublime</li>
+</ul>
+
+
+<h3>TypeScript</h3>
+
+<p>TypeScript is a new statically typed programming language from Microsoft that compiles to pure JavaScript.</p>
+
+<ul>
+<li><a href="http://channel9.msdn.com/posts/Anders-Hejlsberg-Introducing-TypeScript">Anders Hejlsberg: Introducing TypeScript</a></li>
+<li><a href="http://channel9.msdn.com/posts/Anders-Hejlsberg-Steve-Lucco-and-Luke-Hoban-Inside-TypeScript">Anders Hejlsberg, Steve Lucco, and Luke Hoban: Inside TypeScript</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

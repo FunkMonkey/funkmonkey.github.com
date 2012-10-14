@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mozilla | André Selmanagić]]></title>
   <link href="http://FunkMonkey.github.com/blog/categories/mozilla/atom.xml" rel="self"/>
   <link href="http://FunkMonkey.github.com/"/>
-  <updated>2012-09-18T11:32:45+02:00</updated>
+  <updated>2012-10-14T17:53:45+02:00</updated>
   <id>http://FunkMonkey.github.com/</id>
   <author>
     <name><![CDATA[André]]></name>
@@ -123,6 +123,98 @@
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Compiling a NPAPI-Plugin from the Mozilla source-code]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2010/08/02/compiling-a-npapi-plugin-from-the-mozilla-source-code/"/>
+    <updated>2010-08-02T16:50:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2010/08/02/compiling-a-npapi-plugin-from-the-mozilla-source-code</id>
+    <content type="html"><![CDATA[<p>Some days ago I tried to compile the basic NPAPI-Plugin from the Mozilla codebase and of course ran into some problems that could easily be solved, though finding the answers wasn't that easy.</p>
+
+<p>Here's the first one, when compiling:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>c:\program files\microsoft sdks\windows\v7.0\include\winnt.h(6361): error C2146: syntax error : missing &#39;;&#39; before identifier &#39;ContextRecord&#39;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Huh? <code>winnt.h</code>. Shouldn't change something in there. I googled a little and <a href="http://www.apijunkie.com/APIJunkie/blog/post/2008/09/22/Building-Firefox-Plugins-using-Visual-Studio.aspx">someone</a> knew the problem. He suggested to alter <code>npplat.h</code> and move some includes after the include of <code>windows.h</code>. Though this will work, it doesn't actually sound like something you're supposed to do. So I digged further and checked out the <a href="https://developer.mozilla.org/@api/deki/files/3844/=GeckoPluginSDK-samplesWin32.zip">Gecko-Win32-Plugin-Samples-Package</a> that you can get at <a href="https://developer.mozilla.org/en-US/docs/Plugins/Samples_and_Test_Cases">MDC</a>. The basic plugin in there compiled fine, which confused me a little, so I diffed the project-files and there I found the solution: The project-file from comm-central missed the preprocessor-tag <code>_X86_</code>.</p>
+
+<p>I used some XPCOM-Components in my plugin, which lead to another compile-error:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>nsidomnode.h(94) : error C2059: syntax error : &#39;constant&#39;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I found <a href="http://osdir.com/ml/mozilla.devel.dom/2003-10/msg00059.html">someone</a> in the net, having the same problem. Seems there is a <code>#define GetNextSibling GetWindow</code> somewhere in <code>windows.h</code>, which collides with the method-declaration of <code>GetNextSibling</code> in <code>nsidomnode.h</code>. So I undef'ed it after including <code>windows.h</code> and got the problem solved.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[Tutorial] Get rid of XPCOM syntax with JS Modules and Components.Constructor]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2010/02/26/tutorial-get-rid-of-xpcom-syntax-with-js-modules-and-components-dot-constructor/"/>
+    <updated>2010-02-26T14:19:00+01:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2010/02/26/tutorial-get-rid-of-xpcom-syntax-with-js-modules-and-components-dot-constructor</id>
+    <content type="html"><![CDATA[<p>In case you dislike the syntax of creating XPCOM components, you can use <a href="https://developer.mozilla.org/en-US/docs/Components.Constructor">Components.Constructor</a> to achieve a more Javascript like syntax for object-creation. Combine this with <a href="https://developer.mozilla.org/en-US/docs/JavaScript_code_modules">JS modules</a> and your constructors can be accessed from everywhere.</p>
+
+<h3>MozXPCOM.jsm</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">EXPORTED_SYMBOLS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MOZ&quot;</span><span class="p">];</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kr">const</span> <span class="nx">Cc</span> <span class="o">=</span> <span class="nx">Components</span><span class="p">.</span><span class="nx">classes</span><span class="p">;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">Ci</span> <span class="o">=</span> <span class="nx">Components</span><span class="p">.</span><span class="nx">interfaces</span><span class="p">;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">CCtor</span> <span class="o">=</span> <span class="nx">Components</span><span class="p">.</span><span class="nx">Constructor</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">MOZ</span> <span class="o">=</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">CON</span><span class="o">:</span> <span class="p">{}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">};</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsLocalFile</span>     <span class="o">=</span> <span class="s2">&quot;@mozilla.org/file/local;1&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">MOZ</span><span class="p">.</span><span class="nx">LocalFile</span>           <span class="o">=</span> <span class="nx">CCtor</span><span class="p">(</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsLocalFile</span><span class="p">,</span> <span class="nx">Ci</span><span class="p">.</span><span class="nx">nsILocalFile</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsMutableArray</span>  <span class="o">=</span> <span class="s2">&quot;@mozilla.org/array;1&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">MOZ</span><span class="p">.</span><span class="nx">MutableArray</span>        <span class="o">=</span> <span class="nx">CCtor</span><span class="p">(</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsMutableArray</span><span class="p">,</span> <span class="nx">Ci</span><span class="p">.</span><span class="nx">nsIMutableArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Usage</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Components</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s2">&quot;resource://myext/MozXPCOM.jsm&quot;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// ...&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">anArray</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MOZ</span><span class="p">.</span><span class="nx">MutableArray</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I prefer to put all constructors in a MOZ-object, so I don't have to export them all.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: plugin | André Selmanagić]]></title>
+  <link href="http://FunkMonkey.github.com/blog/categories/plugin/atom.xml" rel="self"/>
+  <link href="http://FunkMonkey.github.com/"/>
+  <updated>2012-10-14T17:53:45+02:00</updated>
+  <id>http://FunkMonkey.github.com/</id>
+  <author>
+    <name><![CDATA[André]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Added basic TypeScript support to SublimeLinter]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2012/10/14/sublimelinter-basic-typescript-support/"/>
+    <updated>2012-10-14T14:30:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2012/10/14/sublimelinter-basic-typescript-support</id>
+    <content type="html"><![CDATA[<p>I took a look at <a href="https://github.com/SublimeLinter/SublimeLinter">SublimeLinter</a> and added basic TypeScript support, see <a href="https://github.com/SublimeLinter/SublimeLinter/pull/259">this pull request</a>.</p>
+
+<p>Sublime can now show errors from TypeScript files, but it is still quite problematic when working with bigger TypeScript projects, as every lint operation will reparse everything (including referenced files) - thus there is still a lot to be done, but it is a start.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sublime plugin for automatically resizing the active group]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2012/10/14/sublimeresizeactivegroup/"/>
+    <updated>2012-10-14T14:24:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2012/10/14/sublimeresizeactivegroup</id>
+    <content type="html"><![CDATA[<p>I developed a little Sublime plugin that automatically resizes the active layout group to use up the most space. You can find <a href="https://github.com/FunkMonkey/SublimeResizeActiveGroup">SublimeResizeActiveGroup</a> on github.</p>
+
+<blockquote><p>Sublime Plugin for resizing the active layout group when the user switches groups. Resize the groups once as usual using the sliders. Whenever you activate a different group now, the selected group will be resized to have the most space.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Compiling a NPAPI-Plugin from the Mozilla source-code]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2010/08/02/compiling-a-npapi-plugin-from-the-mozilla-source-code/"/>
+    <updated>2010-08-02T16:50:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2010/08/02/compiling-a-npapi-plugin-from-the-mozilla-source-code</id>
+    <content type="html"><![CDATA[<p>Some days ago I tried to compile the basic NPAPI-Plugin from the Mozilla codebase and of course ran into some problems that could easily be solved, though finding the answers wasn't that easy.</p>
+
+<p>Here's the first one, when compiling:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>c:\program files\microsoft sdks\windows\v7.0\include\winnt.h(6361): error C2146: syntax error : missing &#39;;&#39; before identifier &#39;ContextRecord&#39;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Huh? <code>winnt.h</code>. Shouldn't change something in there. I googled a little and <a href="http://www.apijunkie.com/APIJunkie/blog/post/2008/09/22/Building-Firefox-Plugins-using-Visual-Studio.aspx">someone</a> knew the problem. He suggested to alter <code>npplat.h</code> and move some includes after the include of <code>windows.h</code>. Though this will work, it doesn't actually sound like something you're supposed to do. So I digged further and checked out the <a href="https://developer.mozilla.org/@api/deki/files/3844/=GeckoPluginSDK-samplesWin32.zip">Gecko-Win32-Plugin-Samples-Package</a> that you can get at <a href="https://developer.mozilla.org/en-US/docs/Plugins/Samples_and_Test_Cases">MDC</a>. The basic plugin in there compiled fine, which confused me a little, so I diffed the project-files and there I found the solution: The project-file from comm-central missed the preprocessor-tag <code>_X86_</code>.</p>
+
+<p>I used some XPCOM-Components in my plugin, which lead to another compile-error:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>nsidomnode.h(94) : error C2059: syntax error : &#39;constant&#39;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I found <a href="http://osdir.com/ml/mozilla.devel.dom/2003-10/msg00059.html">someone</a> in the net, having the same problem. Seems there is a <code>#define GetNextSibling GetWindow</code> somewhere in <code>windows.h</code>, which collides with the method-declaration of <code>GetNextSibling</code> in <code>nsidomnode.h</code>. So I undef'ed it after including <code>windows.h</code> and got the problem solved.</p>
+]]></content>
+  </entry>
+  
+</feed>

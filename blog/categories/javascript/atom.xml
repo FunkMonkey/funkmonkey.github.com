@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JavaScript | André Selmanagić]]></title>
   <link href="http://FunkMonkey.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://FunkMonkey.github.com/"/>
-  <updated>2012-09-18T11:32:45+02:00</updated>
+  <updated>2012-10-14T17:53:45+02:00</updated>
   <id>http://FunkMonkey.github.com/</id>
   <author>
     <name><![CDATA[André]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Link Roundup (October 2012)]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2012/10/14/link-roundup/"/>
+    <updated>2012-10-14T14:01:00+02:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2012/10/14/link-roundup</id>
+    <content type="html"><![CDATA[<p>Some interesting links ...</p>
+
+<h3>Functional Programming</h3>
+
+<ul>
+<li><a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a><br/>
+Great introduction to functional programming</li>
+</ul>
+
+
+<h3>JavaScript</h3>
+
+<ul>
+<li><a href="http://smallcultfollowing.com/babysteps/blog/2012/10/10/rivertrail/">Rivertrail</a><br/>
+Mozilla started implementing Intel's Rivertrail specification</li>
+</ul>
+
+
+<h3>Sublime Text 2</h3>
+
+<ul>
+<li><a href="https://tutsplus.com/course/improve-workflow-in-sublime-text-2/">Perfect Workflow in Sublime Text 2</a><br/>
+A great video tutorial series about Sublime</li>
+</ul>
+
+
+<h3>TypeScript</h3>
+
+<p>TypeScript is a new statically typed programming language from Microsoft that compiles to pure JavaScript.</p>
+
+<ul>
+<li><a href="http://channel9.msdn.com/posts/Anders-Hejlsberg-Introducing-TypeScript">Anders Hejlsberg: Introducing TypeScript</a></li>
+<li><a href="http://channel9.msdn.com/posts/Anders-Hejlsberg-Steve-Lucco-and-Luke-Hoban-Inside-TypeScript">Anders Hejlsberg, Steve Lucco, and Luke Hoban: Inside TypeScript</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Coolest Javascript Features - Part 1: let, logical operators, destructuring, labels]]></title>
@@ -123,6 +166,73 @@
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[Tutorial] Get rid of XPCOM syntax with JS Modules and Components.Constructor]]></title>
+    <link href="http://FunkMonkey.github.com/blog/2010/02/26/tutorial-get-rid-of-xpcom-syntax-with-js-modules-and-components-dot-constructor/"/>
+    <updated>2010-02-26T14:19:00+01:00</updated>
+    <id>http://FunkMonkey.github.com/blog/2010/02/26/tutorial-get-rid-of-xpcom-syntax-with-js-modules-and-components-dot-constructor</id>
+    <content type="html"><![CDATA[<p>In case you dislike the syntax of creating XPCOM components, you can use <a href="https://developer.mozilla.org/en-US/docs/Components.Constructor">Components.Constructor</a> to achieve a more Javascript like syntax for object-creation. Combine this with <a href="https://developer.mozilla.org/en-US/docs/JavaScript_code_modules">JS modules</a> and your constructors can be accessed from everywhere.</p>
+
+<h3>MozXPCOM.jsm</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">EXPORTED_SYMBOLS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MOZ&quot;</span><span class="p">];</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kr">const</span> <span class="nx">Cc</span> <span class="o">=</span> <span class="nx">Components</span><span class="p">.</span><span class="nx">classes</span><span class="p">;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">Ci</span> <span class="o">=</span> <span class="nx">Components</span><span class="p">.</span><span class="nx">interfaces</span><span class="p">;</span>
+</span><span class='line'><span class="kr">const</span> <span class="nx">CCtor</span> <span class="o">=</span> <span class="nx">Components</span><span class="p">.</span><span class="nx">Constructor</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">MOZ</span> <span class="o">=</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">CON</span><span class="o">:</span> <span class="p">{}</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">};</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsLocalFile</span>     <span class="o">=</span> <span class="s2">&quot;@mozilla.org/file/local;1&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">MOZ</span><span class="p">.</span><span class="nx">LocalFile</span>           <span class="o">=</span> <span class="nx">CCtor</span><span class="p">(</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsLocalFile</span><span class="p">,</span> <span class="nx">Ci</span><span class="p">.</span><span class="nx">nsILocalFile</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsMutableArray</span>  <span class="o">=</span> <span class="s2">&quot;@mozilla.org/array;1&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">MOZ</span><span class="p">.</span><span class="nx">MutableArray</span>        <span class="o">=</span> <span class="nx">CCtor</span><span class="p">(</span><span class="nx">MOZ</span><span class="p">.</span><span class="nx">CON</span><span class="p">.</span><span class="nx">nsMutableArray</span><span class="p">,</span> <span class="nx">Ci</span><span class="p">.</span><span class="nx">nsIMutableArray</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Usage</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Components</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s2">&quot;resource://myext/MozXPCOM.jsm&quot;</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="c1">// ...&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">anArray</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MOZ</span><span class="p">.</span><span class="nx">MutableArray</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>I prefer to put all constructors in a MOZ-object, so I don't have to export them all.</p>
 ]]></content>
   </entry>
   

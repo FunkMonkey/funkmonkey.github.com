@@ -8,6 +8,13 @@ footer: false
 ## Employment
 
 <table id="cv-employment-table" style="width: 100%">
+	<tr>
+        <td>
+			<div>Application / game developer</div>
+			<div class="cv-grey">HTW Berlin</div>
+		</td>
+		<td class="right-align">2012 - present</td>
+    </tr>
     <tr>
         <td>
 			<div>Tutor for Mathematics</div>
@@ -17,7 +24,7 @@ footer: false
     </tr>
 	<tr>
         <td>
-			<div>Game programmer (internship)</div>
+			<div>Game developer (internship)</div>
 			<div class="cv-grey">Ksatria Gameworks, Singapore</div>
 			<div class="cv-project">Project: <a href="{{ root_url }}/cv/lonewolf_kjapi">LoneWolf & kjAPI</a></div>
 
@@ -26,7 +33,7 @@ footer: false
     </tr>
 	<tr>
         <td>
-			<div>Application programmer(student assistant)</div>
+			<div>Application developer (student assistant)</div>
 			<div class="cv-grey">HTW Berlin</div>
 			<div class="cv-project">Project: <a href="{{ root_url }}/cv/imagesorter">ImageSorter</a></div>
 		</td>
@@ -34,7 +41,7 @@ footer: false
     </tr>
 	<tr>
         <td>
-			<div>Web designer / web programmer (internship)</div>
+			<div>Web designer / web developer (internship)</div>
 			<div class="cv-grey">xeta.create.operate, Berlin</div>
 		</td>
 		<td class="right-align">2006</td>
@@ -61,7 +68,7 @@ footer: false
 			<div class="cv-grey">Hochschule für Technik und Wirtschaft Berlin</div>
 			<table class="cv-study-subtable">
 				<tr class="cv-study-subtable-second"><td class="first-column">Internship:</td><td>Ksatria Gameworks, Singapore</td></tr>
-				<tr class="cv-study-subtable-second"><td class="first-column">Thesis:</td><td>Conceptual Design and Implementation of a Filebrowser based on the Mozilla Framework</td></tr>
+				<tr class="cv-study-subtable-second"><td class="first-column">Thesis:</td><td><a href="{{ root_url }}/projects/loomo/">Conceptual Design and Implementation of a Filebrowser based on the Mozilla Framework</a></td></tr>
 			</table>
 		</td>
 		<td class="right-align">2006 - 2009</td>
@@ -96,7 +103,7 @@ footer: false
     </tr>
 	<tr>
         <td>Languages:</td>
-		<td>German (mother-tongue), English (fluent), French (basics)</td>
+		<td>German (native), English (fluent), French (basics)</td>
     </tr>
 	<tr>
         <td>Profession-related interests:</td>

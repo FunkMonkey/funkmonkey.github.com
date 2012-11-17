@@ -9,7 +9,7 @@
   <meta name="author" content="André">
 
   
-  <meta name="description" content="I took a look at SublimeLinter and added basic TypeScript support, see this pull request. Sublime can now show errors from TypeScript files, but it &hellip;">
+  <meta name="description" content="Recently I started converting Loomo to TypeScript. Results are currently in the typescript branch. JS code modules The most challenging part was the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,188 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/17/using-typescript-for-mozilla-platform-development/">Using TypeScript for Mozilla platform development</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T18:35:00+01:00" pubdate data-updated="true">Nov 17<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I started converting <a href="https://github.com/FunkMonkey/Loomo">Loomo</a> to <a href="http://www.typescriptlang.org/">TypeScript</a>. Results are currently in the <a href="https://github.com/FunkMonkey/Loomo/tree/typescript-support">typescript</a> branch.</p>
+
+<h2>JS code modules</h2>
+
+<p>The most challenging part was the support for Mozilla&#8217;s <a href="https://developer.mozilla.org/en-US/docs/JavaScript_code_modules">JS code modules</a>, as they don&#8217;t fit well with the two module formats TypeScript can generate - CommonJS and AMD.</p>
+
+<p>I created a module (in plain JS) that provides functionality for writing a JS code module using CommonJS syntax (the format TS compiles to).</p>
+
+<p>It does two important things:</p>
+
+<ul>
+<li>it gives the module a <code>require</code> function that allows loading of relatively located modules</li>
+<li>it turns exported objects (<code>exports.foo</code>) into elements of <code>EXPORTED_SYMBOLS</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span>CommonJS.jsm  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">EXPORTED_SYMBOLS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;initCommonJSModule&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * Initializes the global object of a Mozilla JS Module to be a CommonJS module</span>
+</span><span class='line'><span class="cm"> *    - adds require and exports</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @param  {Object}   global   Global object of Mozilla JS module</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">initCommonJSModule</span><span class="p">(</span><span class="nx">global</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// adding CommonJS require</span>
+</span><span class='line'>  <span class="nx">global</span><span class="p">.</span><span class="nx">require</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">require</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="s2">&quot;__URI__&quot;</span> <span class="k">in</span> <span class="nx">global</span><span class="p">))</span>
+</span><span class='line'>            <span class="k">throw</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;require may only be used from a JSM, and its first argument &quot;</span><span class="o">+</span>
+</span><span class='line'>                        <span class="s2">&quot;must be that JSM&#39;s global object (hint: use this)&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="kd">let</span> <span class="nx">uri</span> <span class="o">=</span> <span class="nx">global</span><span class="p">.</span><span class="nx">__URI__</span><span class="p">;</span>
+</span><span class='line'>          <span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">uri</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">);</span>
+</span><span class='line'>          <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>          <span class="nx">Components</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="nx">uri</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">path</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">,</span> <span class="nx">res</span><span class="p">);</span>
+</span><span class='line'>          <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">};</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c1">// adding the symbols needes for Mozilla JS modules</span>
+</span><span class='line'>  <span class="nx">global</span><span class="p">.</span><span class="nx">EXPORTED_SYMBOLS</span> <span class="o">=</span> <span class="p">[];</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c1">// Proxy handler used for CommonJS exports that will automatically adjust EXPORTED_SYMBOLS</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">handler</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">){</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="nx">global</span><span class="p">.</span><span class="nx">EXPORTED_SYMBOLS</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>              <span class="nx">global</span><span class="p">.</span><span class="nx">EXPORTED_SYMBOLS</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">target</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="c1">// adding CommonJS exports</span>
+</span><span class='line'>  <span class="nx">global</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Proxy</span><span class="p">(</span><span class="nx">global</span><span class="p">,</span> <span class="nx">handler</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">global</span><span class="p">.</span><span class="nx">module</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>  <span class="nx">global</span><span class="p">.</span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">global</span><span class="p">.</span><span class="nx">exports</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All you need to do, is to include the JS module in your TypeScript file.</p>
+
+<figure class='code'><figcaption><span>SomeFile.ts  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Boilerplate for hacking support JS modules in TypeScript</span>
+</span><span class='line'><span class="c1">///&lt;reference path=&#39;../../Moz.d.ts&#39; /&gt;</span>
+</span><span class='line'><span class="nx">Components</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="kr">import</span><span class="p">(</span><span class="s2">&quot;chrome://path/to/CommonJS.jsm&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">initCommonJSModule</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;this&#39;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">import</span> <span class="nx">Bar</span> <span class="o">=</span> <span class="nx">module</span><span class="p">(</span><span class="s2">&quot;../Bar&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kr">export</span> <span class="kr">class</span> <span class="nx">Foo</span> <span class="p">{</span>
+</span><span class='line'>  
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Relative file loading in <code>require</code> uses the <code>__URI__</code> property every JS code module provides and which is also used in the implementation of <a href="https://developer.mozilla.org/en-US/docs/JavaScript_code_modules/XPCOMUtils.jsm#importRelative"><code>XPCOMUtils.importRelative</code></a>.</p>
+
+<p>There are some things to consider.</p>
+
+<p>You need to provide declarations for Mozilla specific APIs like <code>Components.xxx</code>, which I do provide in <a href="https://github.com/FunkMonkey/Loomo/blob/typescript-support/Loomo/chrome/content/MozGlobals.d.ts"><code>MozGlobals.d.ts</code></a> (which is referenced by <code>Moz.d.ts</code>). You will also have to provide the declaration for <code>initCommonJSModule</code>, otherwise TypeScript won&#8217;t compile. Doh!</p>
+
+<p>Also TypeScript does not support using <code>this</code> in global scope, but it is the only way to access the global object of the module and thus needed. I had to hack it using <code>eval(this)</code>. I considered using a function which simply returns <code>this</code>, but I think this will be problematic in <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode">strict mode</a>.</p>
+
+<p>One big caveat is still there: importing modules from other contexts (like &#8220;chrome://browser&#8221; or extensions) can&#8217;t be done, as <code>require</code> can only import relative to the source file. You will have to use <code>Components.utils.import</code> and provide TypeScript declarations.</p>
+
+<h2>Some remarks: Mozilla specifics, ES6/Harmony features and host objects</h2>
+
+<p>As I already said, you will have to provide declarations for all Mozilla specific APIs. This includes APIs and functions that will appear with ES6/Harmony, which shouldn&#8217;t be too complicated.</p>
+
+<p>Really problematic are ES6/Harmony&#8217;s syntactic changes. TypeScript currently does not support <code>let</code> and <code>const</code>. I opened a bug <a href="https://typescript.codeplex.com/workitem/368">report for it</a>, but I don&#8217;t see it happening in the near future. I&#8217;m not sure about generators and <code>yield</code> either.</p>
+
+<p>Also, <a href="http://typescript.codeplex.com/workitem/13">for now</a>, host objects like <code>Array</code> can not be extended.</p>
+
+<h2>Conclusion</h2>
+
+<p>Apart from some problems here and there and missing features of ES6/Harmony, TypeScript conversion went pretty smoothly.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -646,6 +828,10 @@ A great video tutorial series about Sublime</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/17/using-typescript-for-mozilla-platform-development/">Using TypeScript for Mozilla platform development</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/14/sublimelinter-basic-typescript-support/">Added basic TypeScript support to SublimeLinter</a>
       </li>
     
@@ -659,10 +845,6 @@ A great video tutorial series about Sublime</li>
     
       <li class="post">
         <a href="/blog/2012/08/24/switching-to-octopress/">Switching to Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/01/c-plus-plus-11-auto-and-references/">C++11 auto and references</a>
       </li>
     
   </ul>

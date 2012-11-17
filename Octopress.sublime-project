@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "/E/Projekte/Webdesign/AndreSelmanagic/octopress",
+			"folder_exclude_patterns": [".pygments-cache", ".sass-cache", "_deploy", "public"]
+		}
+	]
+}
